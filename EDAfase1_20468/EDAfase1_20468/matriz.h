@@ -1,5 +1,20 @@
+/* 
+* @file matriz.h 
+* @author Diogo Oliveira (a20468@alunos.ipca.pt) 
+* @brief Header matriz para definir as funções e a lista ligada 
+* @date fevereiro 2024 *
+* 
+* @copyright Copyright (c) 2024 
+* 
+*/
+
+
 #ifndef MATRIZ_H
 #define MATRIZ_H
+
+/**
+ * @brief Estrutura de nó para representar uma matriz na lista ligada
+ */
 
 struct No {
     int** matriz;

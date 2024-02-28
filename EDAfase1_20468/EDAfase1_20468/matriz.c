@@ -1,3 +1,15 @@
+/*
+* @file matriz.c
+* @author Diogo Oliveira (a20468@alunos.ipca.pt)
+* @brief matriz contém a implementação das funções relacionadas à manipulação de matrizes e lista ligada.
+ * Inclui funções para criar matrizes, inserir e limpar matrizes de uma lista ligada, visualizar matrizes,
+ * guardar e carregar matrizes de/para um arquivo, calcular a soma máxima possível em uma matriz, inserir valores
+ * manualmente em uma matriz, entre outras funcionalidades.
+*
+* @copyright Copyright (c) 2024
+*
+*/
+
 #include "matriz.h"
 #include <stdio.h>
 #include <stdlib.h>

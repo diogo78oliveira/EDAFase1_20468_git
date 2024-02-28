@@ -1,8 +1,19 @@
+/* 
+* @file main.c
+* @author Diogo Oliveira (a20468@alunos.ipca.pt) 
+* @brief main responsável para fazer a intereçao com o utilizador e a chamada das funçoes 
+* @date fevereiro 2024 * 
+* 
+* @copyright Copyright (c) 2024 
+* 
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "matriz.h"
 
 
+#pragma region Menu
 void printMenu() {
     printf("\nSelecione uma opcao:\n");
     printf("1 - Inserir nova matriz\n");
@@ -17,7 +28,10 @@ void printMenu() {
     printf("0 - Sair\n");
     printf("Opcao: ");
 }
+#pragma endregion
 
+
+#pragma region Switch Case
 int main() {
     srand(time(NULL));
 
@@ -106,3 +120,4 @@ int main() {
 
     return 0;
 }
+#pragma endregion
