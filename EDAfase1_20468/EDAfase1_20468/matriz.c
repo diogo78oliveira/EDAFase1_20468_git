@@ -219,7 +219,7 @@ void listarMatriz(const char* nomeficheiro) {
         char* next_token = NULL;
         token = strtok_s(line, ";", &next_token);
         while (token != NULL) {
-            printf("%6s", token); // Ajuste o espaçamento conforme necessário
+            printf("%9s", token); // Ajuste o espaçamento conforme necessário
             token = strtok_s(NULL, ";", &next_token);
         }
         printf("\n");
