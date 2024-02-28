@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
 
 
+//funçao responsavel por associar valores random aos espaços da matriz
 int** criarMatriz(int rows, int cols) {
     int** matriz = (int**)malloc(rows * sizeof(int*));
     for (int i = 0; i < rows; i++) {
@@ -16,6 +18,7 @@ int** criarMatriz(int rows, int cols) {
     return matriz;
 }
 
+//usado na funçao onde se limpa a Lista Ligada
 void LimparMatriz(int** matriz, int rows) {
     for (int i = 0; i < rows; i++) {
         free(matriz[i]);
@@ -23,6 +26,7 @@ void LimparMatriz(int** matriz, int rows) {
     free(matriz);
 }
 
+//Inserir matriz na Lista Ligada
 struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
     struct No* novoNo = (struct No*)malloc(sizeof(struct No));
     novoNo->matriz = matriz;
@@ -31,6 +35,7 @@ struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
     novoNo->prox = head;
     return novoNo;
 }
+
 
 void verMatriz(int** matriz, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
@@ -226,4 +231,107 @@ void listarMatriz(const char* nomeficheiro) {
     }
 
     fclose(file);
+}
+
+
+// Função auxiliar para verificar se um número está contido em um array
+bool contains(int* arr, int size, int num) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == num) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Função auxiliar recursiva para encontrar a soma máxima e os números selecionados
+void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers, int* maxSumResult, int currentSum, int* bestSelectedNumbers) {
+    // Verifica se atingiu a última linha da matriz
+    if (row == rows) {
+        if (currentSum > *maxSumResult) {
+            *maxSumResult = currentSum;
+            // Se encontrarmos uma nova soma máxima, atualizamos os números selecionados correspondentes
+            for (int i = 0; i < rows; i++) {
+                bestSelectedNumbers[i] = matriz[i][selectedNumbers[i]];
+            }
+        }
+        return;
+    }
+
+    // Explora todas as possibilidades de seleção de números para esta linha
+    for (int col = 0; col < cols; col++) {
+        // Verifica se o número na posição (row, col) pode ser selecionado
+        if (!contains(selectedNumbers, row, col)) {
+            // Atualiza a soma atual
+            currentSum += matriz[row][col];
+
+            // Marca o número selecionado
+            selectedNumbers[row] = col;
+
+            // Chama recursivamente para a próxima linha
+            findMaxSum(matriz, rows, cols, row + 1, selectedNumbers, maxSumResult, currentSum, bestSelectedNumbers);
+
+            // Desfaz as alterações para explorar outras opções
+            currentSum -= matriz[row][col];
+            selectedNumbers[row] = -1;
+        }
+    }
+}
+
+// Função principal para calcular a soma máxima possível e imprimir os números selecionados
+int maxSum(int** matriz, int rows, int cols) {
+    // Array para rastrear os números selecionados em cada linha
+    int* selectedNumbers = (int*)malloc(rows * sizeof(int));
+    int* bestSelectedNumbers = (int*)malloc(rows * sizeof(int));
+    for (int i = 0; i < rows; i++) {
+        selectedNumbers[i] = -1; // Inicializa com -1, indicando que nenhuma seleção foi feita
+        bestSelectedNumbers[i] = -1; // Inicializa com -1, indicando que nenhuma seleção foi feita
+    }
+
+    // Variável para armazenar a soma máxima encontrada
+    int maxSumResult = 0;
+
+    // Chamada da função auxiliar recursiva para encontrar a soma máxima
+    findMaxSum(matriz, rows, cols, 0, selectedNumbers, &maxSumResult, 0, bestSelectedNumbers);
+
+    // Imprime os números selecionados
+    printf("Numeros selecionados para a soma maxima:\n");
+    for (int i = 0; i < rows; i++) {
+        printf("%d ", bestSelectedNumbers[i]);
+    }
+    printf("\n");
+
+    // Libera a memória alocada para os arrays de números selecionados
+    free(selectedNumbers);
+    free(bestSelectedNumbers);
+
+    return maxSumResult;
+}
+
+void inserirValoresManualmente(struct No** head) {
+    int rows, cols;
+
+    // Solicita ao usuário o número de linhas e colunas
+    printf("Insira o numero de linhas e colunas: ");
+    scanf_s("%d", &rows);
+    cols = rows;
+
+    // Aloca memória para a matriz
+    int** matriz = (int**)malloc(rows * sizeof(int*));
+    for (int i = 0; i < rows; i++) {
+        matriz[i] = (int*)malloc(cols * sizeof(int));
+    }
+
+    // Solicita ao usuário os valores para cada posição da matriz
+    printf("Insira os valores para a matriz:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("Insira o valor para a posição [%d][%d]: ", i, j);
+            scanf_s("%d", &matriz[i][j]);
+        }
+    }
+
+    // Insere a matriz na lista ligada
+    *head = inserirMatriz(*head, matriz, rows, cols);
+    printf("Matriz inserida.\n");
 }

@@ -12,6 +12,8 @@ void printMenu() {
     printf("5 - Inserir nova linha e coluna\n");
     printf("6 - Remover linha e coluna\n");
     printf("7 - Listar matriz de forma tabular\n");
+    printf("8 - Soma maxima possivel\n");
+    printf("9 - Inserir os valores manualmente\n");
     printf("0 - Sair\n");
     printf("Opcao: ");
 }
@@ -74,6 +76,23 @@ int main() {
             printf("Linha e coluna removida.\n");
         case 7:
             listarMatriz("matriz.txt");
+        case 8:
+            if (head != NULL) {
+                int result = maxSum(head->matriz, head->rows, head->cols);
+                printf("Soma maxima possivel: %d\n", result);
+            }
+            else {
+                printf("Nenhuma matriz encontrada.\n");
+            }
+            break;
+        case 9:
+            // Limpa a memória da matriz anterior, se existir
+            if (head != NULL) {
+                limparLL(head);
+                head = NULL;
+            }
+            inserirValoresManualmente(&head);
+            break;
         case 0:
             printf("A sair ...\n");
             break;

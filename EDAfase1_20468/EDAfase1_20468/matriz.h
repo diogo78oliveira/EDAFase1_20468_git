@@ -18,5 +18,7 @@ void carregarMatriz(struct No** head, const char* nomeficheiro);
 void inserirNovaLinhaColuna(struct No* matriz, int novaLinhaColuna);
 void removerLinhaColuna(struct No* matriz, int posicao);
 void listarMatriz(const char* nomeficheiro);
+int maxSum(int** matriz, int rows, int cols);
+void inserirValoresManualmente(struct No** head);
 
 #endif 

@@ -1,2 +1,5 @@
-﻿  matriz.c
+﻿  main.c
+C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\EDAfase1_20468\main.c(22,11): warning C4013: 'time' indefinido; assumindo extern retornando int
+  matriz.c
+  Gerando Código...
   EDAfase1_20468.vcxproj -> C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\x64\Debug\EDAfase1_20468.exe
