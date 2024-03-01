@@ -335,11 +335,18 @@ void inserirValoresManualmente(struct No** head) {
     }
 
     // Solicita ao usuário os valores para cada posição da matriz
-    printf("Insira os valores para a matriz:\n");
+    printf("Insira os valores para a matriz (valores entre 1 e 999):\n");
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            printf("Insira o valor para a posição [%d][%d]: ", i, j);
-            scanf_s("%d", &matriz[i][j]);
+            int valor;
+            do {
+                printf("Insira o valor para a posição [%d][%d]: ", i, j);
+                scanf_s("%d", &valor);
+                if (valor < 1 || valor > 999) {
+                    printf("Valor fora do intervalo permitido (1 a 999). Tente novamente.\n");
+                }
+            } while (valor < 1 || valor > 999);
+            matriz[i][j] = valor;
         }
     }
 
