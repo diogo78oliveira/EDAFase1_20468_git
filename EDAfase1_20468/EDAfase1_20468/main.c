@@ -4,7 +4,7 @@
 * @brief main responsável para fazer a intereçao com o utilizador e a chamada das funçoes 
 * @date fevereiro 2024 * 
 * 
-* @copyright Copyright (c) 2024 
+* @copyright Copyright (c) 2024     
 * 
 */
 
