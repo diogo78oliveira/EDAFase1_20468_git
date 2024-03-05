@@ -145,6 +145,8 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
 }
 
 // Função para inserir uma nova linha e uma nova coluna na matriz
+
+
 void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
     int novaIndex = novaPosicao - 1;
     int rows = matriz->rows;
@@ -180,6 +182,8 @@ void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
     matriz->rows++;
     matriz->cols++;
 }
+
+
 
 // Função para remover uma linha e uma coluna da matriz
 void removerLinhaColuna(struct No* matriz, int posicao) {
@@ -220,6 +224,8 @@ void removerLinhaColuna(struct No* matriz, int posicao) {
     matriz->rows--;
     matriz->cols--;
 }
+
+
 
 void listarMatriz(const char* nomeficheiro) {
     FILE* file = fopen(nomeficheiro, "r");
