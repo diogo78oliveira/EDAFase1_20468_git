@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************************************************
 * @file matriz.c
 * @author Diogo Oliveira (a20468@alunos.ipca.pt)
 * @brief matriz contém a implementação das funções relacionadas à manipulação de matrizes e lista ligada.
@@ -8,7 +8,8 @@
 *
 * @copyright Copyright (c) 2024
 *
-*/
+ *******************************************************************************************************************/
+
 
 #include "matriz.h"
 #include <stdio.h>
@@ -18,7 +19,16 @@
 #include <stdbool.h>
 
 
-//funçao responsavel por associar valores random aos espaços da matriz
+#pragma region Criar Matriz
+ /**
+  * @brief Cria uma nova matriz com valores aleatórios entre 1 e 999.
+  * 
+  * @param rows.
+  * @param cols.
+  * @return matriz.
+  * @autor Diogo Oliveira
+  * 
+  */
 int** criarMatriz(int rows, int cols) {
     int** matriz = (int**)malloc(rows * sizeof(int*));
     for (int i = 0; i < rows; i++) {
@@ -28,17 +38,42 @@ int** criarMatriz(int rows, int cols) {
         }
     }
     return matriz;
-}
+} 
+#pragma endregion
 
-//usado na funçao onde se limpa a Lista Ligada
+
+
+#pragma region Limpar Matriz
+/**
+ * @brief Limpa a memoria que a matriz está a utilizar.
+ * 
+ * @param matriz.
+ * @param rows.
+ * @autor Diogo Oliveira
+ * 
+ */
 void LimparMatriz(int** matriz, int rows) {
     for (int i = 0; i < rows; i++) {
         free(matriz[i]);
     }
     free(matriz);
 }
+#pragma endregion
 
-//Inserir matriz na Lista Ligada
+
+
+#pragma region Inserir Matriz
+/**
+ * @brief Insere uma nova matriz na lista ligada.
+ * 
+ * @param head (Ponteiro para o início da lista ligada). 
+ * @param matriz (Matriz a ser inserida).
+ * @param rows.
+ * @param cols.
+ * @return nonoNo (Ponteiro para o novo nó inserido na lista ligada).
+ * @autor Diogo Oliveira
+ * 
+ */
 struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
     struct No* novoNo = (struct No*)malloc(sizeof(struct No));
     novoNo->matriz = matriz;
@@ -47,8 +82,19 @@ struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
     novoNo->prox = head;
     return novoNo;
 }
+#pragma endregion
 
 
+#pragma region Visualizar Matriz
+/**
+ * @brief Exibe uma matriz na tela.
+ * 
+ * @param matriz.
+ * @param rows.
+ * @param cols.
+ * @autor Diogo Oliveira
+ * 
+ */
 void verMatriz(int** matriz, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -57,9 +103,19 @@ void verMatriz(int** matriz, int rows, int cols) {
         printf("\n");
     }
 }
+#pragma endregion
 
-void limparLL(struct No* head) {
-    struct No* current = head;
+
+#pragma region Limpar Lista Ligada
+/**
+ * @brief Limpa a lista ligada e limpa a memória através da funçao 'LimparMatriz'.
+ * 
+ * @param head.
+ * @autor Diogo Oliveira
+ * 
+ */
+void limparLL(struct No* head) {    //'temp' utilizado por precauçao para limpar corretamente a memoria
+    struct No* current = head;      //ponteiro 'current' utilizado para percorrer a lista ligada e apontar para o nó atual    
     while (current != NULL) {
         struct No* temp = current;
         current = current->prox;
@@ -67,7 +123,17 @@ void limparLL(struct No* head) {
         free(temp);
     }
 }
+#pragma endregion
 
+
+#pragma region Guardar Matriz no Ficheiro de Texto
+/**
+ * @brief Salva a matriz em um arquivo.
+ * 
+ * @param head.
+ * @param nomeficheiro.
+ * @autor Diogo Oliveira
+ */
 void guardarMatriz(struct No* head, const char* nomeficheiro) {
     FILE* file = fopen(nomeficheiro, "w");
     if (file == NULL) {
@@ -91,7 +157,18 @@ void guardarMatriz(struct No* head, const char* nomeficheiro) {
 
     fclose(file);
 }
+#pragma endregion 
 
+
+#pragma region Carregar a Matriz através de um Ficheiro de Texto
+/**
+ * @brief Carrega uma matriz de um arquivo.
+ * 
+ * @param head.
+ * @param nomeficheiro.
+ * @autor Diogo Oliveira
+ * 
+ */
 void carregarMatriz(struct No** head, const char* nomeficheiro) {
     FILE* file = fopen(nomeficheiro, "r");
     if (file == NULL) {
@@ -143,10 +220,18 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
     // Insere a matriz na lista ligada
     *head = inserirMatriz(*head, matriz, rows, cols);
 }
+#pragma endregion
 
-// Função para inserir uma nova linha e uma nova coluna na matriz
 
-
+#pragma region Inserir Nova Linha e Coluna na Matriz
+/**
+ * @brief Insere uma nova linha e uma nova coluna na matriz.
+ * 
+ * @param matriz (Ponteiro para o nó da lista ligada contendo a matriz).
+ * @param novaPosicao (Nova posição da linha e coluna a serem inseridas).
+ * @autor Diogo Oliveira
+ * 
+ */
 void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
     int novaIndex = novaPosicao - 1;
     int rows = matriz->rows;
@@ -182,10 +267,19 @@ void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
     matriz->rows++;
     matriz->cols++;
 }
+#pragma endregion
 
 
 
-// Função para remover uma linha e uma coluna da matriz
+#pragma region Remover Linha e Coluna
+/**
+ * @brief Remove uma linha e uma coluna da matriz.
+ * 
+ * @param matriz.
+ * @param posicao.
+ * @autor Diogo Oliveira
+ * 
+ */
 void removerLinhaColuna(struct No* matriz, int posicao) {
     int index = posicao - 1;
     int rows = matriz->rows;
@@ -224,9 +318,17 @@ void removerLinhaColuna(struct No* matriz, int posicao) {
     matriz->rows--;
     matriz->cols--;
 }
+#pragma endregion
 
 
-
+#pragma region Listar de forma Tabular
+/**
+ * @brief Lista a matriz de forma tabular.
+ * 
+ * @param nomeficheiro.
+ * @autor DiogoOliveira
+ * 
+ */
 void listarMatriz(const char* nomeficheiro) {
     FILE* file = fopen(nomeficheiro, "r");
     if (file == NULL) {
@@ -250,9 +352,20 @@ void listarMatriz(const char* nomeficheiro) {
 
     fclose(file);
 }
+#pragma endregion
 
-
-// Função auxiliar para verificar se um número está contido em um array
+#pragma region Verificar se está no Array
+/**
+ * @brief Verifica se um número está contido em um array.
+ * 
+ * @param arr (Array onde será feita a presquisa).
+ * @param size (Tamanho do array).
+ * @param num (Número a ser precurado).
+ * @return true (se o número estiver no array).
+ * @return false (se o número nao estiver no array).
+ * @autor Diogo Oliveira
+ * 
+ */
 bool contains(int* arr, int size, int num) {
     for (int i = 0; i < size; i++) {
         if (arr[i] == num) {
@@ -261,8 +374,24 @@ bool contains(int* arr, int size, int num) {
     }
     return false;
 }
+#pragma endregion
 
-// Função auxiliar recursiva para encontrar a soma máxima e os números selecionados
+
+#pragma region Encontrar a soma máxima e os números utilizados
+/**
+ * @brief Função auxiliar  para encontrar a soma máxima e os números utilizados.
+ * 
+ * @param matriz Matriz (Onde será feita a pesquisa).
+ * @param rows.
+ * @param cols.
+ * @param row (Linha atual).
+ * @param selectedNumbers (Array de números selecionados de cada linha).
+ * @param maxSumResult (Ponteiro para a soma máxima encontrada).
+ * @param currentSum (Soma atual).
+ * @param bestSelectedNumbers (Array de números selecionados para fazer a soma máxima.
+ * @autor Diogo Oliveira
+ * 
+ */
 void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers, int* maxSumResult, int currentSum, int* bestSelectedNumbers) {
     // Verifica se atingiu a última linha da matriz
     if (row == rows) {
@@ -295,8 +424,20 @@ void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers,
         }
     }
 }
+#pragma endregion
 
-// Função principal para calcular a soma máxima possível e imprimir os números selecionados
+
+#pragma region Calcular a Soma Máxima Possível
+/**
+ * @brief Calcula a soma máxima possível em uma matriz e imprime os números selecionados.
+ * 
+ * @param matriz Matriz (Onde será feita a pesquisa).
+ * @param rows.
+ * @param cols.
+ * @return maxSumResult.
+ * @autor Diogo Oliveira
+ * 
+ */
 int maxSum(int** matriz, int rows, int cols) {
     // Array para rastrear os números selecionados em cada linha
     int* selectedNumbers = (int*)malloc(rows * sizeof(int));
@@ -325,6 +466,17 @@ int maxSum(int** matriz, int rows, int cols) {
 
     return maxSumResult;
 }
+#pragma endregion
+
+
+#pragma region Criar a Matriz com Valores Inseridos Manualmente
+/**
+ * @brief Insere valores manualmente em uma nova matriz.
+ * 
+ * @param head.
+ * @autor Diogo Oliveira
+ * 
+ */
 
 void inserirValoresManualmente(struct No** head) {
     int rows, cols;
@@ -360,3 +512,4 @@ void inserirValoresManualmente(struct No** head) {
     *head = inserirMatriz(*head, matriz, rows, cols);
     printf("Matriz inserida.\n");
 }
+#pragma endregion

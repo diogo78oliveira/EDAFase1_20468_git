@@ -1,4 +1,4 @@
-/* 
+/*******************************************************************************************************************
 * @file matriz.h 
 * @author Diogo Oliveira (a20468@alunos.ipca.pt) 
 * @brief Header matriz para definir as funções e a lista ligada 
@@ -6,16 +6,25 @@
 * 
 * @copyright Copyright (c) 2024 
 * 
-*/
+*******************************************************************************************************************/
 
 
 #ifndef MATRIZ_H
 #define MATRIZ_H
 
 /**
- * @brief Estrutura de nó para representar uma matriz na lista ligada
+ * @brief Estrutura de nó para representar uma matriz na lista ligada.
+ *
+ * Esta estrutura contém um ponteiro para a matriz, as dimensões da matriz (número de linhas e colunas)
+ * e um ponteiro para o próximo nó na lista ligada.
+ *
+ * @param matriz Ponteiro para a matriz.
+ * @param rows Número de linhas na matriz.
+ * @param cols Número de colunas na matriz.
+ * @param prox Ponteiro para o próximo nó na lista ligada.
+ * @author Diogo Oliveira
+ *
  */
-
 struct No {
     int** matriz;
     int rows;

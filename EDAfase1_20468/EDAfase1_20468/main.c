@@ -1,4 +1,4 @@
-/* 
+/*******************************************************************************************************************
 * @file main.c
 * @author Diogo Oliveira (a20468@alunos.ipca.pt) 
 * @brief main responsável para fazer a intereçao com o utilizador e a chamada das funçoes 
@@ -6,7 +6,7 @@
 * 
 * @copyright Copyright (c) 2024     
 * 
-*/
+*******************************************************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +14,12 @@
 
 
 #pragma region Menu
+/**
+* 
+ * @brief Menu do programa.
+ * @author Diogo Oliveira
+ * 
+ */
 void printMenu() {
     printf("\nSelecione uma opcao:\n");
     printf("1 - Inserir nova matriz\n");
@@ -32,6 +38,13 @@ void printMenu() {
 
 
 #pragma region Switch Case
+/**
+* 
+ * @brief  Main do programa.
+ * @return 
+ * @author Diogo Oliveira
+ * 
+ */
 int main() {
     srand(time(NULL));
 
@@ -88,13 +101,16 @@ int main() {
             scanf_s("%d", &posicao);
             removerLinhaColuna(head, posicao);
             printf("Linha e coluna removida.\n");
+            break;
         case 7:
             listarMatriz("matriz.txt");
+            break;
         case 8:
             if (head != NULL) {
                 int result = maxSum(head->matriz, head->rows, head->cols);
                 printf("Soma maxima possivel: %d\n", result);
             }
+            
             else {
                 printf("Nenhuma matriz encontrada.\n");
             }
