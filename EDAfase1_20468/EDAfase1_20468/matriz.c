@@ -271,27 +271,27 @@ void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
 
 
 
-#pragma region Remover Linha e Coluna
+#pragma region Remover Linha
 /**
- * @brief Remove uma linha e uma coluna da matriz.
+ * @brief Remove uma linha
  * 
  * @param matriz.
  * @param posicao.
  * @autor Diogo Oliveira
  * 
  */
-void removerLinhaColuna(struct No* matriz, int posicao) {
+void removerLinha(struct No* matriz, int posicao) {
     int index = posicao - 1;
     int rows = matriz->rows;
     int cols = matriz->cols;
 
     // Verificar se a posição é válida
-    if (index < 0 || index >= rows) {
+    if (index < 0 || index >= rows || index >= cols) {
         printf("Posicao invalida.\n");
         return;
     }
 
-    // Alocar espaço para a nova matriz com uma linha e uma coluna a menos
+    // Alocar espaço para a nova matriz com uma linha  a menos
     int** novaMatriz = (int**)malloc((rows - 1) * sizeof(int*));
     for (int i = 0, k = 0; i < rows; i++) {
         // Excluir a linha da posição indicada
@@ -318,8 +318,6 @@ void removerLinhaColuna(struct No* matriz, int posicao) {
     matriz->rows--;
     matriz->cols--;
 }
-#pragma endregion
-
 
 #pragma region Listar de forma Tabular
 /**
@@ -357,14 +355,14 @@ void listarMatriz(const char* nomeficheiro) {
 #pragma region Verificar se está no Array
 /**
  * @brief Verifica se um número está contido em um array.
- * 
+ *
  * @param arr (Array onde será feita a presquisa).
  * @param size (Tamanho do array).
  * @param num (Número a ser precurado).
  * @return true (se o número estiver no array).
  * @return false (se o número nao estiver no array).
  * @autor Diogo Oliveira
- * 
+ *
  */
 bool contains(int* arr, int size, int num) {
     for (int i = 0; i < size; i++) {
@@ -380,7 +378,7 @@ bool contains(int* arr, int size, int num) {
 #pragma region Encontrar a soma máxima e os números utilizados
 /**
  * @brief Função auxiliar  para encontrar a soma máxima e os números utilizados.
- * 
+ *
  * @param matriz Matriz (Onde será feita a pesquisa).
  * @param rows.
  * @param cols.
@@ -390,7 +388,7 @@ bool contains(int* arr, int size, int num) {
  * @param currentSum (Soma atual).
  * @param bestSelectedNumbers (Array de números selecionados para fazer a soma máxima.
  * @autor Diogo Oliveira
- * 
+ *
  */
 void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers, int* maxSumResult, int currentSum, int* bestSelectedNumbers) {
     // Verifica se atingiu a última linha da matriz
@@ -430,15 +428,15 @@ void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers,
 #pragma region Calcular a Soma Máxima Possível
 /**
  * @brief Calcula a soma máxima possível em uma matriz e imprime os números selecionados.
- * 
+ *
  * @param matriz Matriz (Onde será feita a pesquisa).
  * @param rows.
  * @param cols.
  * @return maxSumResult.
  * @autor Diogo Oliveira
- * 
+ *
  */
-int maxSum(int** matriz, int rows, int cols) {
+int maxSum(int** matriz, int rows, int* cols) {
     // Array para rastrear os números selecionados em cada linha
     int* selectedNumbers = (int*)malloc(rows * sizeof(int));
     int* bestSelectedNumbers = (int*)malloc(rows * sizeof(int));
@@ -466,8 +464,6 @@ int maxSum(int** matriz, int rows, int cols) {
 
     return maxSumResult;
 }
-#pragma endregion
-
 
 #pragma region Criar a Matriz com Valores Inseridos Manualmente
 /**
@@ -481,35 +477,35 @@ int maxSum(int** matriz, int rows, int cols) {
 void inserirValoresManualmente(struct No** head) {
     int rows, cols;
 
-    // Solicita ao usuário o número de linhas e colunas
-    printf("Insira o numero de linhas e colunas: ");
-    scanf_s("%d", &rows);
-    cols = rows;
-
-    // Aloca memória para a matriz
-    int** matriz = (int**)malloc(rows * sizeof(int*));
-    for (int i = 0; i < rows; i++) {
-        matriz[i] = (int*)malloc(cols * sizeof(int));
+    // Verifica se a lista está vazia
+    if (*head == NULL) {
+        printf("Nenhuma matriz encontrada\n");
+        return;
     }
 
-    // Solicita ao usuário os valores para cada posição da matriz
-    printf("Insira os valores para a matriz (valores entre 1 e 999):\n");
+    // Obtém as dimensões da matriz da primeira célula da lista
+    rows = (*head)->rows;
+    cols = (*head)->cols;
+
+    // Aloca espaço para a matriz
+    int** matriz = (*head)->matriz;
+
+    // Solicita ao usuário os novos valores para cada posição da matriz
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int valor;
             do {
-                printf("Insira o valor para a posição [%d][%d]: ", i, j);
+                printf("Insira o valor para a posicao [%d][%d]: ", i, j);
                 scanf_s("%d", &valor);
                 if (valor < 1 || valor > 999) {
-                    printf("Valor fora do intervalo permitido (1 a 999). Tente novamente.\n");
+                    printf("Valor fora do intervalo permitido (1 a 999).\n");
                 }
             } while (valor < 1 || valor > 999);
             matriz[i][j] = valor;
         }
     }
 
-    // Insere a matriz na lista ligada
-    *head = inserirMatriz(*head, matriz, rows, cols);
-    printf("Matriz inserida.\n");
+    printf("Valores inseridos na matriz.\n");
 }
+
 #pragma endregion

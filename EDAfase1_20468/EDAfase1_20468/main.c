@@ -97,10 +97,10 @@ int main() {
             printf("Nova linha inserida e coluna inseridas.\n");
             break;
         case 6:
-            printf("Insira a posicao da linha e da coluna a ser removida: ");
+            printf("Insira a posicao da linha a ser removida: ");
             scanf_s("%d", &posicao);
-            removerLinhaColuna(head, posicao);
-            printf("Linha e coluna removida.\n");
+            removerLinha(head, posicao);
+            printf("Linha removida.\n");
             break;
         case 7:
             listarMatriz("matriz.txt");
@@ -109,18 +109,12 @@ int main() {
             if (head != NULL) {
                 int result = maxSum(head->matriz, head->rows, head->cols);
                 printf("Soma maxima possivel: %d\n", result);
-            }
-            
+            }        
             else {
                 printf("Nenhuma matriz encontrada.\n");
             }
             break;
-        case 9:
-            // Limpa a memória da matriz anterior, se existir
-            if (head != NULL) {
-                limparLL(head);
-                head = NULL;
-            }
+        case 9:          
             inserirValoresManualmente(&head);
             break;
         case 0:

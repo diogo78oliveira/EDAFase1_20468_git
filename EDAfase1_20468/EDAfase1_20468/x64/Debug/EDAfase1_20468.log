@@ -1,2 +1,5 @@
 ﻿  matriz.c
+C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\EDAfase1_20468\matriz.c(439,41): warning C4028: parâmetro formal 3 diferente da declaração
+C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\EDAfase1_20468\matriz.c(452,30): warning C4047: 'função': 'int' difere em níveis de indireção de 'int *'
+C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\EDAfase1_20468\matriz.c(452,30): warning C4024: 'findMaxSum': tipos diferentes para parâmetro formal e real 3
   EDAfase1_20468.vcxproj -> C:\Users\diogo\Documents\GitHub\EDAFase1_20468_git\EDAfase1_20468\x64\Debug\EDAfase1_20468.exe

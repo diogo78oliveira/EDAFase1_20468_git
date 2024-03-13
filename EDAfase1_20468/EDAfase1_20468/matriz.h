@@ -40,7 +40,7 @@ void limparLL(struct No* head);
 void guardarMatriz(struct No* head, const char* nomeficheiro);
 void carregarMatriz(struct No** head, const char* nomeficheiro);
 void inserirNovaLinhaColuna(struct No* matriz, int novaLinhaColuna);
-void removerLinhaColuna(struct No* matriz, int posicao);
+void removerLinha(struct No* matriz, int posicao);
 void listarMatriz(const char* nomeficheiro);
 int maxSum(int** matriz, int rows, int cols);
 void inserirValoresManualmente(struct No** head);
