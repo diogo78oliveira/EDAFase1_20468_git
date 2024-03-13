@@ -45,4 +45,5 @@ void listarMatriz(const char* nomeficheiro);
 int maxSum(int** matriz, int rows, int cols);
 void inserirValoresManualmente(struct No** head);
 
+
 #endif 

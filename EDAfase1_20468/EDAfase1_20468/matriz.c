@@ -436,7 +436,7 @@ void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers,
  * @autor Diogo Oliveira
  *
  */
-int maxSum(int** matriz, int rows, int* cols) {
+int maxSum(int** matriz, int rows, int cols) {
     // Array para rastrear os números selecionados em cada linha
     int* selectedNumbers = (int*)malloc(rows * sizeof(int));
     int* bestSelectedNumbers = (int*)malloc(rows * sizeof(int));
@@ -509,3 +509,7 @@ void inserirValoresManualmente(struct No** head) {
 }
 
 #pragma endregion
+
+
+
+

@@ -121,7 +121,7 @@ int main() {
             printf("A sair ...\n");
             break;
         default:
-            printf("Selecione uma opçao válida.\n");
+            printf("Selecione uma opcao valida.\n");
             break;
         }
     } while (opcao != 0);
