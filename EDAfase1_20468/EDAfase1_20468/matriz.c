@@ -98,7 +98,7 @@ struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
 void verMatriz(int** matriz, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            printf("%4d ", matriz[i][j]);
+            printf("%5d ", matriz[i][j]);
         }
         printf("\n");
     }
@@ -214,7 +214,7 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
         }
     }
 
-    // Fecha o arquivo
+    
     fclose(file);
 
     // Insere a matriz na lista ligada
@@ -232,7 +232,7 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
  * @autor Diogo Oliveira
  * 
  */
-void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
+void inserirNovaLinha(struct No* matriz, int novaPosicao) {
     int novaIndex = novaPosicao - 1;
     int rows = matriz->rows;
     int cols = matriz->cols;
@@ -248,7 +248,7 @@ void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
         }
     }
 
-    // Preencher a nova linha e a nova coluna com números aleatórios de 1 a 999
+    // Preencher a nova linha
     for (int j = 0; j < cols; j++) {
         novaMatriz[novaIndex][j] = rand() % 999 + 1;
     }
@@ -256,7 +256,7 @@ void inserirNovaLinhaColuna(struct No* matriz, int novaPosicao) {
         novaMatriz[i][cols] = rand() % 999 + 1;
     }
 
-    // Libera a matriz antiga
+    // Free matriz antiga
     for (int i = 0; i < rows; i++) {
         free(matriz->matriz[i]);
     }
@@ -319,38 +319,6 @@ void removerLinha(struct No* matriz, int posicao) {
     matriz->cols--;
 }
 
-#pragma region Listar de forma Tabular
-/**
- * @brief Lista a matriz de forma tabular.
- * 
- * @param nomeficheiro.
- * @autor DiogoOliveira
- * 
- */
-void listarMatriz(const char* nomeficheiro) {
-    FILE* file = fopen(nomeficheiro, "r");
-    if (file == NULL) {
-        printf("Erro ao abrir o arquivo para leitura.\n");
-        return;
-    }
-
-    printf("Matriz:\n");
-
-    char line[999]; // Assumindo um tamanho máximo de 3 digitos
-    while (fgets(line, sizeof(line), file) != NULL) {
-        char* token = NULL;
-        char* next_token = NULL;
-        token = strtok_s(line, ";", &next_token);
-        while (token != NULL) {
-            printf("%9s", token); // Ajuste o espaçamento conforme necessário
-            token = strtok_s(NULL, ";", &next_token);
-        }
-        printf("\n");
-    }
-
-    fclose(file);
-}
-#pragma endregion
 
 #pragma region Verificar se está no Array
 /**

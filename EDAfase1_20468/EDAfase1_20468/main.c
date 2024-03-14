@@ -28,9 +28,8 @@ void printMenu() {
     printf("4 - Carregar Matriz\n");
     printf("5 - Inserir linha\n");
     printf("6 - Remover linha\n");
-    printf("7 - Listar matriz de forma tabular\n");
-    printf("8 - Soma maxima possivel\n");
-    printf("9 - Inserir os valores manualmente\n");
+    printf("7 - Soma maxima possivel\n");
+    printf("8 - Inserir os valores manualmente\n");
     printf("0 - Sair\n");
     printf("Opcao: ");
 }
@@ -93,7 +92,7 @@ int main() {
             printf("Matriz carregada.\n");
             break;
         case 5:
-            inserirNovaLinhaColuna(head, head->rows + 1);
+            inserirNovaLinha(head, head->rows + 1);
             printf("Nova linha inserida.\n");
             break;
         case 6:
@@ -103,9 +102,6 @@ int main() {
             printf("Linha removida.\n");
             break;
         case 7:
-            listarMatriz("matriz.txt");
-            break;
-        case 8:
             if (head != NULL) {
                 int result = maxSum(head->matriz, head->rows, head->cols);
                 printf("Soma maxima possivel: %d\n", result);
@@ -114,7 +110,7 @@ int main() {
                 printf("Nenhuma matriz encontrada.\n");
             }
             break;
-        case 9:          
+        case 8:          
             inserirValoresManualmente(&head);
             break;
         case 0:
