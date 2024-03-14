@@ -437,7 +437,7 @@ void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers,
  *
  */
 int maxSum(int** matriz, int rows, int cols) {
-    // Array para rastrear os números selecionados em cada linha
+    // Array para procurar os números selecionados em cada linha
     int* selectedNumbers = (int*)malloc(rows * sizeof(int));
     int* bestSelectedNumbers = (int*)malloc(rows * sizeof(int));
     for (int i = 0; i < rows; i++) {
@@ -448,10 +448,10 @@ int maxSum(int** matriz, int rows, int cols) {
     // Variável para armazenar a soma máxima encontrada
     int maxSumResult = 0;
 
-    // Chamada da função auxiliar recursiva para encontrar a soma máxima
+    // Chamada da função findMaxSum para encontrar a soma máxima
     findMaxSum(matriz, rows, cols, 0, selectedNumbers, &maxSumResult, 0, bestSelectedNumbers);
 
-    // Imprime os números selecionados
+    
     printf("Numeros selecionados para a soma maxima:\n");
     for (int i = 0; i < rows; i++) {
         printf("%d ", bestSelectedNumbers[i]);
@@ -490,7 +490,7 @@ void inserirValoresManualmente(struct No** head) {
     // Aloca espaço para a matriz
     int** matriz = (*head)->matriz;
 
-    // Solicita ao usuário os novos valores para cada posição da matriz
+
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int valor;

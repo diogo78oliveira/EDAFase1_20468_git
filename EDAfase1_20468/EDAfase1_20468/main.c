@@ -26,8 +26,8 @@ void printMenu() {
     printf("2 - Ver matriz\n");
     printf("3 - Guardar matriz\n");
     printf("4 - Carregar Matriz\n");
-    printf("5 - Inserir nova linha e coluna\n");
-    printf("6 - Remover linha e coluna\n");
+    printf("5 - Inserir linha\n");
+    printf("6 - Remover linha\n");
     printf("7 - Listar matriz de forma tabular\n");
     printf("8 - Soma maxima possivel\n");
     printf("9 - Inserir os valores manualmente\n");
@@ -94,7 +94,7 @@ int main() {
             break;
         case 5:
             inserirNovaLinhaColuna(head, head->rows + 1);
-            printf("Nova linha inserida e coluna inseridas.\n");
+            printf("Nova linha inserida.\n");
             break;
         case 6:
             printf("Insira a posicao da linha a ser removida: ");
