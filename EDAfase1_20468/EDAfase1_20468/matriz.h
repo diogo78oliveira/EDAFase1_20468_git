@@ -39,10 +39,12 @@ void verMatriz(int** matriz, int rows, int cols);
 void limparLL(struct No* head);
 void guardarMatriz(struct No* head, const char* nomeficheiro);
 void carregarMatriz(struct No** head, const char* nomeficheiro);
-void inserirNovaLinha(struct No* matriz, int novaLinhaColuna);
+void inserirNovaLinha(struct No* matriz, int novaPosicao);
+void inserirNovaColuna(struct No* matriz, int novaPosicao);
 void removerLinha(struct No* matriz, int posicao);
+void removerColuna(struct No* matriz, int posicao);
 int maxSum(int** matriz, int rows, int cols);
 void inserirValoresManualmente(struct No** head);
-
+void alterarValor(struct No** head, int linha, int coluna, int novoValor);
 
 #endif 

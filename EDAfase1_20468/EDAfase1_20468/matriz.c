@@ -4,7 +4,7 @@
 * @brief matriz contém a implementação das funções relacionadas à manipulação de matrizes e lista ligada.
  * Inclui funções para criar matrizes, inserir e limpar matrizes de uma lista ligada, visualizar matrizes,
  * guardar e carregar matrizes de/para um arquivo, calcular a soma máxima possível em uma matriz, inserir valores
- * manualmente em uma matriz, entre outras funcionalidades.
+ * manualmente em uma matriz, inserir linhas e colunas, remover colunas e linhas, alterar um valor, entre outras funcionalidades.
 *
 * @copyright Copyright (c) 2024
 *
@@ -85,7 +85,7 @@ struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
 #pragma endregion
 
 
-#pragma region Visualizar Matriz
+#pragma region Imprimir Matriz
 /**
  * @brief Exibe uma matriz na tela.
  * 
@@ -96,7 +96,21 @@ struct No* inserirMatriz(struct No* head, int** matriz, int rows, int cols) {
  * 
  */
 void verMatriz(int** matriz, int rows, int cols) {
+    printf("Numero de linhas: %d\n", rows);
+    printf("Numero de colunas: %d\n", cols);
+    printf("Matriz:\n");
+    printf("    ");
+    for (int j = 0; j < cols; j++) {
+        printf("%5d ", j + 1); // Enumerar as colunas
+    }
+    printf("\n");
+    printf("  ");
+    for (int j = 0; j < cols; j++) {
+        printf("------"); 
+    }
+    printf("\n");
     for (int i = 0; i < rows; i++) {
+        printf("%2d |", i + 1); // Enumerar as linhas
         for (int j = 0; j < cols; j++) {
             printf("%5d ", matriz[i][j]);
         }
@@ -126,9 +140,9 @@ void limparLL(struct No* head) {    //'temp' utilizado por precauçao para limpar
 #pragma endregion
 
 
-#pragma region Guardar Matriz no Ficheiro de Texto
+#pragma region Guardar Matriz
 /**
- * @brief Salva a matriz em um arquivo.
+ * @brief Salva a matriz em um ficheiro de texto.
  * 
  * @param head.
  * @param nomeficheiro.
@@ -160,9 +174,9 @@ void guardarMatriz(struct No* head, const char* nomeficheiro) {
 #pragma endregion 
 
 
-#pragma region Carregar a Matriz através de um Ficheiro de Texto
+#pragma region Carregar a Matriz
 /**
- * @brief Carrega uma matriz de um arquivo.
+ * @brief Carrega uma matriz de um ficheiro de texto.
  * 
  * @param head.
  * @param nomeficheiro.
@@ -223,12 +237,12 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
 #pragma endregion
 
 
-#pragma region Inserir Nova Linha e Coluna na Matriz
+#pragma region Inserir Linha
 /**
- * @brief Insere uma nova linha e uma nova coluna na matriz.
+ * @brief Insere uma nova linha na matriz.
  * 
  * @param matriz (Ponteiro para o nó da lista ligada contendo a matriz).
- * @param novaPosicao (Nova posição da linha e coluna a serem inseridas).
+ * @param novaPosicao (Nova posição da nova linha).
  * @autor Diogo Oliveira
  * 
  */
@@ -237,23 +251,25 @@ void inserirNovaLinha(struct No* matriz, int novaPosicao) {
     int rows = matriz->rows;
     int cols = matriz->cols;
 
-    // Alocar espaço para a nova matriz com uma linha e uma coluna adicionais
+    // Alocar espaço para a nova matriz com a nova linha
     int** novaMatriz = (int**)malloc((rows + 1) * sizeof(int*));
     for (int i = 0; i < rows + 1; i++) {
-        novaMatriz[i] = (int*)malloc((cols + 1) * sizeof(int));
-        if (i < rows) {
+        novaMatriz[i] = (int*)malloc(cols * sizeof(int));
+        if (i < novaIndex) {
             for (int j = 0; j < cols; j++) {
                 novaMatriz[i][j] = matriz->matriz[i][j];
             }
         }
-    }
-
-    // Preencher a nova linha
-    for (int j = 0; j < cols; j++) {
-        novaMatriz[novaIndex][j] = rand() % 999 + 1;
-    }
-    for (int i = 0; i < rows + 1; i++) {
-        novaMatriz[i][cols] = rand() % 999 + 1;
+        else if (i == novaIndex) {
+            for (int j = 0; j < cols; j++) {
+                novaMatriz[i][j] = rand() % 999 + 1; // Preencher a nova linha
+            }
+        }
+        else {
+            for (int j = 0; j < cols; j++) {
+                novaMatriz[i][j] = matriz->matriz[i - 1][j];
+            }
+        }
     }
 
     // Free matriz antiga
@@ -262,13 +278,55 @@ void inserirNovaLinha(struct No* matriz, int novaPosicao) {
     }
     free(matriz->matriz);
 
-    // Atualiza os dados da matriz na estrutura
+    // Atualiza os dados da matriz 
     matriz->matriz = novaMatriz;
     matriz->rows++;
-    matriz->cols++;
 }
 #pragma endregion
 
+
+#pragma region Inserir Coluna
+/**
+ * @brief Insere uma nova coluna na matriz.
+ *
+ * @param matriz (Ponteiro para o nó da lista ligada contendo a matriz).
+ * @param novaPosicao (Nova posição da nova coluna).
+ * @autor Diogo Oliveira
+ *
+ */
+void inserirNovaColuna(struct No* matriz, int novaPosicao) {
+    int novaIndex = novaPosicao - 1;
+    int rows = matriz->rows;
+    int cols = matriz->cols;
+
+    // Alocar espaço para a nova matriz com a nova coluna 
+    int** novaMatriz = (int**)malloc(rows * sizeof(int*));
+    for (int i = 0; i < rows; i++) {
+        novaMatriz[i] = (int*)malloc((cols + 1) * sizeof(int));
+        for (int j = 0; j < cols + 1; j++) {
+            if (j < novaIndex) {
+                novaMatriz[i][j] = matriz->matriz[i][j];
+            }
+            else if (j == novaIndex) {
+                novaMatriz[i][j] = rand() % 999 + 1; // Preencher a nova coluna
+            }
+            else {
+                novaMatriz[i][j] = matriz->matriz[i][j - 1];
+            }
+        }
+    }
+
+    // Free matriz antiga
+    for (int i = 0; i < rows; i++) {
+        free(matriz->matriz[i]);
+    }
+    free(matriz->matriz);
+
+    // Atualiza os dados da matriz 
+    matriz->matriz = novaMatriz;
+    matriz->cols++;
+}
+#pragma endregion
 
 
 #pragma region Remover Linha
@@ -286,22 +344,18 @@ void removerLinha(struct No* matriz, int posicao) {
     int cols = matriz->cols;
 
     // Verificar se a posição é válida
-    if (index < 0 || index >= rows || index >= cols) {
+    if (index < 0 || index >= rows) {
         printf("Posicao invalida.\n");
         return;
     }
 
-    // Alocar espaço para a nova matriz com uma linha  a menos
+    // Alocar espaço para a nova matriz com uma linha a menos
     int** novaMatriz = (int**)malloc((rows - 1) * sizeof(int*));
     for (int i = 0, k = 0; i < rows; i++) {
-        // Excluir a linha da posição indicada
         if (i != index) {
-            novaMatriz[k] = (int*)malloc((cols - 1) * sizeof(int));
-            for (int j = 0, l = 0; j < cols; j++) {
-                // Excluir a coluna da posição indicada
-                if (j != index) {
-                    novaMatriz[k][l++] = matriz->matriz[i][j];
-                }
+            novaMatriz[k] = (int*)malloc(cols * sizeof(int));
+            for (int j = 0; j < cols; j++) {
+                novaMatriz[k][j] = matriz->matriz[i][j];
             }
             k++;
         }
@@ -316,8 +370,52 @@ void removerLinha(struct No* matriz, int posicao) {
     // Atualiza os dados da matriz na estrutura
     matriz->matriz = novaMatriz;
     matriz->rows--;
+}
+#pragma endregion
+
+
+#pragma region Remover Coluna
+/**
+ * @brief Remove uma coluna
+ *
+ * @param matriz.
+ * @param posicao.
+ * @autor Diogo Oliveira
+ *
+ */
+void removerColuna(struct No* matriz, int posicao) {
+    int index = posicao - 1;
+    int rows = matriz->rows;
+    int cols = matriz->cols;
+
+    // Verificar se a posição é válida
+    if (index < 0 || index >= cols) {
+        printf("Posicao invalida.\n");
+        return;
+    }
+
+    // Alocar espaço para a nova matriz com uma coluna a menos
+    int** novaMatriz = (int**)malloc(rows * sizeof(int*));
+    for (int i = 0; i < rows; i++) {
+        novaMatriz[i] = (int*)malloc((cols - 1) * sizeof(int));
+        for (int j = 0, k = 0; j < cols; j++) {
+            if (j != index) {
+                novaMatriz[i][k++] = matriz->matriz[i][j];
+            }
+        }
+    }
+
+    // Libera a matriz antiga
+    for (int i = 0; i < rows; i++) {
+        free(matriz->matriz[i]);
+    }
+    free(matriz->matriz);
+
+    // Atualiza os dados da matriz na estrutura
+    matriz->matriz = novaMatriz;
     matriz->cols--;
 }
+#pragma endregion
 
 
 #pragma region Verificar se está no Array
@@ -343,9 +441,9 @@ bool contains(int* arr, int size, int num) {
 #pragma endregion
 
 
-#pragma region Encontrar a soma máxima e os números utilizados
+#pragma region Procurar a soma máxima e os números utilizados
 /**
- * @brief Função auxiliar  para encontrar a soma máxima e os números utilizados.
+ * @brief Função auxiliar  para procurar a soma máxima e os números utilizados.
  *
  * @param matriz Matriz (Onde será feita a pesquisa).
  * @param rows.
@@ -393,7 +491,7 @@ void findMaxSum(int** matriz, int rows, int cols, int row, int* selectedNumbers,
 #pragma endregion
 
 
-#pragma region Calcular a Soma Máxima Possível
+#pragma region Calcular a Soma Máxima 
 /**
  * @brief Calcula a soma máxima possível em uma matriz e imprime os números selecionados.
  *
@@ -432,10 +530,12 @@ int maxSum(int** matriz, int rows, int cols) {
 
     return maxSumResult;
 }
+#pragma endregion
+
 
 #pragma region Criar a Matriz com Valores Inseridos Manualmente
 /**
- * @brief Insere valores manualmente em uma nova matriz.
+ * @brief Insere valores manualmente em uma nova matriz utilizando as dimensoes da matriz já carregada.
  * 
  * @param head.
  * @autor Diogo Oliveira
@@ -475,9 +575,51 @@ void inserirValoresManualmente(struct No** head) {
 
     printf("Valores inseridos na matriz.\n");
 }
-
 #pragma endregion
 
 
+#pragma region Alterar Valor
+/**
+ * @brief Altera manualmente o valor em uma posição específica da matriz.
+ *
+ * @param head (Ponteiro para o nó da lista ligada contendo a matriz).
+ * @param linha (Linha onde o valor será alterado).
+ * @param coluna (Coluna onde o valor será alterado).
+ * @param novoValor (Novo valor a ser inserido na posição especificada).
+ * @autor Diogo Oliveira
+ *
+ */
+void alterarValor(struct No** head, int linha, int coluna, int novoValor) {
+    // Verifica se a lista está vazia
+    if (*head == NULL) {
+        printf("Nenhuma matriz encontrada\n");
+        return;
+    }
+
+    // Obtém as dimensões da matriz da primeira célula da lista
+    int rows = (*head)->rows;
+    int cols = (*head)->cols;
+
+    
+    if (linha < 1 || linha > rows || coluna < 1 || coluna > cols) {
+        printf("Linha ou coluna invalida.\n");
+        return;
+    }
+
+    
+    if (novoValor < 1 || novoValor > 999) {
+        printf("Valor fora do intervalo permitido (1 a 999).\n");
+        return;
+    }
+
+    // Obtém a matriz da primeira célula da lista
+    int** matriz = (*head)->matriz;
+
+    // Altera o valor na posição 
+    matriz[linha - 1][coluna - 1] = novoValor;
+
+    printf("Valor alterado na matriz.\n");
+}
+#pragma endregion
 
 

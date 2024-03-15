@@ -27,9 +27,12 @@ void printMenu() {
     printf("3 - Guardar matriz\n");
     printf("4 - Carregar Matriz\n");
     printf("5 - Inserir linha\n");
-    printf("6 - Remover linha\n");
-    printf("7 - Soma maxima possivel\n");
-    printf("8 - Inserir os valores manualmente\n");
+    printf("6 - Inserir coluna\n");
+    printf("7 - Remover linha\n");
+    printf("8 - Remover coluna\n");
+    printf("9 - Soma maxima possivel\n");
+    printf("10 - Inserir os valores manualmente\n");
+    printf("11 - Alterar valor\n");
     printf("0 - Sair\n");
     printf("Opcao: ");
 }
@@ -49,6 +52,7 @@ int main() {
 
     int opcao, posicao;
     int rows, cols;
+    int linha, coluna, novoValor;
     struct No* head = NULL;
 
     do {
@@ -96,12 +100,22 @@ int main() {
             printf("Nova linha inserida.\n");
             break;
         case 6:
+            inserirNovaColuna(head, head->cols + 1);
+            printf("Nova coluna inserida.\n");
+            break;
+        case 7:
             printf("Insira a posicao da linha a ser removida: ");
             scanf_s("%d", &posicao);
             removerLinha(head, posicao);
             printf("Linha removida.\n");
             break;
-        case 7:
+        case 8:
+            printf("Insira a posicao da coluna a ser removida: ");
+            scanf_s("%d", &posicao);
+            removerColuna(head, posicao);
+            printf("Coluna removida.\n");
+            break;
+        case 9:
             if (head != NULL) {
                 int result = maxSum(head->matriz, head->rows, head->cols);
                 printf("Soma maxima possivel: %d\n", result);
@@ -110,8 +124,18 @@ int main() {
                 printf("Nenhuma matriz encontrada.\n");
             }
             break;
-        case 8:          
+        case 10:          
             inserirValoresManualmente(&head);
+            break;
+        case 11:
+            printf("Insira o numero da linha: ");
+            scanf_s("%d", &linha);
+            printf("Insira o numero da coluna: ");
+            scanf_s("%d", &coluna);
+            printf("Insira o novo valor: ");
+            scanf_s("%d", &novoValor);
+
+            alterarValor(&head, linha, coluna, novoValor);
             break;
         case 0:
             printf("A sair ...\n");
