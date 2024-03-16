@@ -242,46 +242,35 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
  * @brief Insere uma nova linha na matriz.
  * 
  * @param matriz (Ponteiro para o nó da lista ligada contendo a matriz).
- * @param novaPosicao (Nova posição da nova linha).
  * @autor Diogo Oliveira
  * 
  */
-void inserirNovaLinha(struct No* matriz, int novaPosicao) {
-    int novaIndex = novaPosicao - 1;
+void inserirNovaLinha(struct No* matriz) {
     int rows = matriz->rows;
     int cols = matriz->cols;
 
-    // Alocar espaço para a nova matriz com a nova linha
+    // Alocar espaço para a nova matriz
     int** novaMatriz = (int**)malloc((rows + 1) * sizeof(int*));
-    for (int i = 0; i < rows + 1; i++) {
-        novaMatriz[i] = (int*)malloc(cols * sizeof(int));
-        if (i < novaIndex) {
-            for (int j = 0; j < cols; j++) {
-                novaMatriz[i][j] = matriz->matriz[i][j];
-            }
-        }
-        else if (i == novaIndex) {
-            for (int j = 0; j < cols; j++) {
-                novaMatriz[i][j] = rand() % 999 + 1; // Preencher a nova linha
-            }
-        }
-        else {
-            for (int j = 0; j < cols; j++) {
-                novaMatriz[i][j] = matriz->matriz[i - 1][j];
-            }
-        }
-    }
-
-    // Free matriz antiga
     for (int i = 0; i < rows; i++) {
+        novaMatriz[i] = (int*)malloc(cols * sizeof(int));
+        for (int j = 0; j < cols; j++) {
+            novaMatriz[i][j] = matriz->matriz[i][j];
+        }
         free(matriz->matriz[i]);
     }
     free(matriz->matriz);
+
+    // Preencher a nova linha
+    novaMatriz[rows] = (int*)malloc(cols * sizeof(int));
+    for (int j = 0; j < cols; j++) {
+        novaMatriz[rows][j] = rand() % 999 + 1;
+    }
 
     // Atualiza os dados da matriz 
     matriz->matriz = novaMatriz;
     matriz->rows++;
 }
+
 #pragma endregion
 
 
@@ -290,42 +279,35 @@ void inserirNovaLinha(struct No* matriz, int novaPosicao) {
  * @brief Insere uma nova coluna na matriz.
  *
  * @param matriz (Ponteiro para o nó da lista ligada contendo a matriz).
- * @param novaPosicao (Nova posição da nova coluna).
  * @autor Diogo Oliveira
  *
  */
-void inserirNovaColuna(struct No* matriz, int novaPosicao) {
-    int novaIndex = novaPosicao - 1;
+void inserirNovaColuna(struct No* matriz) {
     int rows = matriz->rows;
     int cols = matriz->cols;
 
-    // Alocar espaço para a nova matriz com a nova coluna 
+    // Alocar espaço para a nova matriz
     int** novaMatriz = (int**)malloc(rows * sizeof(int*));
     for (int i = 0; i < rows; i++) {
+        // Alocar espaço para uma coluna adicional na nova linha
         novaMatriz[i] = (int*)malloc((cols + 1) * sizeof(int));
-        for (int j = 0; j < cols + 1; j++) {
-            if (j < novaIndex) {
-                novaMatriz[i][j] = matriz->matriz[i][j];
-            }
-            else if (j == novaIndex) {
-                novaMatriz[i][j] = rand() % 999 + 1; // Preencher a nova coluna
-            }
-            else {
-                novaMatriz[i][j] = matriz->matriz[i][j - 1];
-            }
+        // Copiar os valores da matriz original para a nova matriz
+        for (int j = 0; j < cols; j++) {
+            novaMatriz[i][j] = matriz->matriz[i][j];
         }
-    }
-
-    // Free matriz antiga
-    for (int i = 0; i < rows; i++) {
+        // Preencher a nova coluna com valores aleatórios
+        novaMatriz[i][cols] = rand() % 999 + 1;
+        // Liberar a memória da linha anterior da matriz original
         free(matriz->matriz[i]);
     }
+    // Liberar a memória da matriz original
     free(matriz->matriz);
 
     // Atualiza os dados da matriz 
     matriz->matriz = novaMatriz;
     matriz->cols++;
 }
+
 #pragma endregion
 
 
@@ -339,12 +321,12 @@ void inserirNovaColuna(struct No* matriz, int novaPosicao) {
  * 
  */
 void removerLinha(struct No* matriz, int posicao) {
-    int index = posicao - 1;
+    int pos = posicao - 1;
     int rows = matriz->rows;
     int cols = matriz->cols;
 
     // Verificar se a posição é válida
-    if (index < 0 || index >= rows) {
+    if (pos < 0 || pos >= rows) {
         printf("Posicao invalida.\n");
         return;
     }
@@ -352,7 +334,7 @@ void removerLinha(struct No* matriz, int posicao) {
     // Alocar espaço para a nova matriz com uma linha a menos
     int** novaMatriz = (int**)malloc((rows - 1) * sizeof(int*));
     for (int i = 0, k = 0; i < rows; i++) {
-        if (i != index) {
+        if (i != pos) {
             novaMatriz[k] = (int*)malloc(cols * sizeof(int));
             for (int j = 0; j < cols; j++) {
                 novaMatriz[k][j] = matriz->matriz[i][j];
@@ -361,7 +343,7 @@ void removerLinha(struct No* matriz, int posicao) {
         }
     }
 
-    // Libera a matriz antiga
+    // Free  matriz antiga
     for (int i = 0; i < rows; i++) {
         free(matriz->matriz[i]);
     }
@@ -384,12 +366,12 @@ void removerLinha(struct No* matriz, int posicao) {
  *
  */
 void removerColuna(struct No* matriz, int posicao) {
-    int index = posicao - 1;
+    int pos = posicao - 1;
     int rows = matriz->rows;
     int cols = matriz->cols;
 
     // Verificar se a posição é válida
-    if (index < 0 || index >= cols) {
+    if (pos < 0 || pos >= cols) {
         printf("Posicao invalida.\n");
         return;
     }
@@ -399,13 +381,13 @@ void removerColuna(struct No* matriz, int posicao) {
     for (int i = 0; i < rows; i++) {
         novaMatriz[i] = (int*)malloc((cols - 1) * sizeof(int));
         for (int j = 0, k = 0; j < cols; j++) {
-            if (j != index) {
+            if (j != pos) {
                 novaMatriz[i][k++] = matriz->matriz[i][j];
             }
         }
     }
 
-    // Libera a matriz antiga
+    // Free matriz antiga
     for (int i = 0; i < rows; i++) {
         free(matriz->matriz[i]);
     }
@@ -417,6 +399,8 @@ void removerColuna(struct No* matriz, int posicao) {
 }
 #pragma endregion
 
+
+//Funçao só consegue fazer a soma até 9 valores
 
 #pragma region Verificar se está no Array
 /**
