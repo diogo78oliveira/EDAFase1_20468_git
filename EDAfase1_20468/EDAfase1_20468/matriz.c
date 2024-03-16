@@ -246,23 +246,28 @@ void carregarMatriz(struct No** head, const char* nomeficheiro) {
  * 
  */
 void inserirNovaLinha(struct No* matriz) {
+    // obter numero de linhas e colunas da matriz
     int rows = matriz->rows;
     int cols = matriz->cols;
 
-    // Alocar espaço para a nova matriz
+    // Reservar memoria para a nova matriz com uma nova linha 'rows +1'
     int** novaMatriz = (int**)malloc((rows + 1) * sizeof(int*));
+
+    //loop externo para percorrer todas as linhas da matriz original
+    //loop interno para percorrer todas as colunas da matriz original
     for (int i = 0; i < rows; i++) {
         novaMatriz[i] = (int*)malloc(cols * sizeof(int));
         for (int j = 0; j < cols; j++) {
             novaMatriz[i][j] = matriz->matriz[i][j];
         }
-        free(matriz->matriz[i]);
     }
+    //free memoria da matriz original
     free(matriz->matriz);
 
     // Preencher a nova linha
-    novaMatriz[rows] = (int*)malloc(cols * sizeof(int));
-    for (int j = 0; j < cols; j++) {
+    novaMatriz[rows] = (int*)malloc(cols * sizeof(int)); //definir a memoria necessaria através do 'malloc(cols *sizeof(int))' 
+                                                         //usado para definir o nº valores da nova linha, nºvalores = nºcolunas
+    for (int j = 0; j < cols; j++) {                     //assim a nova linha terá o mesmo numero de colunas da matriz original
         novaMatriz[rows][j] = rand() % 999 + 1;
     }
 
@@ -286,28 +291,29 @@ void inserirNovaColuna(struct No* matriz) {
     int rows = matriz->rows;
     int cols = matriz->cols;
 
-    // Alocar espaço para a nova matriz
+    // Reservar memoria para a nova matriz
     int** novaMatriz = (int**)malloc(rows * sizeof(int*));
     for (int i = 0; i < rows; i++) {
-        // Alocar espaço para uma coluna adicional na nova linha
-        novaMatriz[i] = (int*)malloc((cols + 1) * sizeof(int));
+        // Alocar memoria para uma coluna adicional
+        novaMatriz[i] = (int*)malloc((cols + 1) * sizeof(int)); //definir a memoria necessária,
+                                                                //para cada linha da nova matriz é adicionada um valor,
+                                                                //formando assim uma coluna
+            
         // Copiar os valores da matriz original para a nova matriz
         for (int j = 0; j < cols; j++) {
             novaMatriz[i][j] = matriz->matriz[i][j];
         }
-        // Preencher a nova coluna com valores aleatórios
-        novaMatriz[i][cols] = rand() % 999 + 1;
-        // Liberar a memória da linha anterior da matriz original
-        free(matriz->matriz[i]);
+        // Preencher a nova coluna 
+        novaMatriz[i][cols] = rand() % 999 + 1;        
     }
-    // Liberar a memória da matriz original
+    // free memoria da matriz original
     free(matriz->matriz);
 
     // Atualiza os dados da matriz 
     matriz->matriz = novaMatriz;
     matriz->cols++;
 }
-
+    
 #pragma endregion
 
 
@@ -331,11 +337,16 @@ void removerLinha(struct No* matriz, int posicao) {
         return;
     }
 
-    // Alocar espaço para a nova matriz com uma linha a menos
+    // Reservar memoria para a nova matriz com uma linha a menos
     int** novaMatriz = (int**)malloc((rows - 1) * sizeof(int*));
+    //Percorrer todas as linhas
     for (int i = 0, k = 0; i < rows; i++) {
-        if (i != pos) {
-            novaMatriz[k] = (int*)malloc(cols * sizeof(int));
+        //Verificar as linhas a serem mantidas
+        if (i != pos) { //i (linha atual) se 'i' for diferente de 'pos', 
+                        //a i (linha atual) é cópiada da matriz antiga para a nova matriz
+            novaMatriz[k] = (int*)malloc(cols * sizeof(int));   //definir a memoria necessária para cada linha da nova matriz
+                                                                //'k' aponta para a proxima linha da nova matriz,
+                                                                //permitindo adicionar linhas na sequencia correta        
             for (int j = 0; j < cols; j++) {
                 novaMatriz[k][j] = matriz->matriz[i][j];
             }
@@ -343,10 +354,8 @@ void removerLinha(struct No* matriz, int posicao) {
         }
     }
 
-    // Free  matriz antiga
-    for (int i = 0; i < rows; i++) {
-        free(matriz->matriz[i]);
-    }
+   
+    //free matriz antiga
     free(matriz->matriz);
 
     // Atualiza os dados da matriz na estrutura
@@ -376,21 +385,22 @@ void removerColuna(struct No* matriz, int posicao) {
         return;
     }
 
-    // Alocar espaço para a nova matriz com uma coluna a menos
+    // Reservar memoria para a nova matriz com uma coluna a menos
     int** novaMatriz = (int**)malloc(rows * sizeof(int*));
+    //Percorrer todas as linhas
     for (int i = 0; i < rows; i++) {
+
         novaMatriz[i] = (int*)malloc((cols - 1) * sizeof(int));
-        for (int j = 0, k = 0; j < cols; j++) {
-            if (j != pos) {
+
+
+        for (int j = 0, k = 0; j < cols; j++) { //para cada linha percorre todas as colunas 
+            if (j != pos) { //j (coluna atual) se 'j' for diferente de 'pos', 
+                            //a j (coluna atual) é cópiada da matriz antiga para a nova matriz
                 novaMatriz[i][k++] = matriz->matriz[i][j];
             }
         }
     }
 
-    // Free matriz antiga
-    for (int i = 0; i < rows; i++) {
-        free(matriz->matriz[i]);
-    }
     free(matriz->matriz);
 
     // Atualiza os dados da matriz na estrutura
@@ -508,7 +518,7 @@ int maxSum(int** matriz, int rows, int cols) {
     }
     printf("\n");
 
-    // Libera a memória alocada para os arrays de números selecionados
+    // Liberta a memória reservada para os arrays de números selecionados
     free(selectedNumbers);
     free(bestSelectedNumbers);
 
@@ -539,10 +549,10 @@ void inserirValoresManualmente(struct No** head) {
     rows = (*head)->rows;
     cols = (*head)->cols;
 
-    // Aloca espaço para a matriz
+    // Reserva memoria para a matriz
     int** matriz = (*head)->matriz;
 
-
+    //percorre todas as celulas da matriz, pedindo um valor para cada posiçao
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int valor;

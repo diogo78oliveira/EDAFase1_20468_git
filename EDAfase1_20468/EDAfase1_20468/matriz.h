@@ -1,5 +1,5 @@
 /*******************************************************************************************************************
-* @file matriz.h 
+* @headerfile matriz.h 
 * @author Diogo Oliveira (a20468@alunos.ipca.pt) 
 * @brief Header matriz para definir as funções e a lista ligada 
 * @date fevereiro 2024 *
